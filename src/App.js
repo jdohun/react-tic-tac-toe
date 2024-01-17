@@ -1,10 +1,29 @@
 import {useState} from "react";
 import "./styles.css"
 
-const Board = () => {
+const Game = () => {
     const [xIsNext, setXisNext] = useState(true); // 현재 표시 마크가 X 이면 true
-    const [squares, setSquares] = useState(Array(9).fill(null)); // 각각의 버튼 상태 초기 정보
+    const [history, setHistory] = useState([Array(9).fill(null)]); // 게임 히스토리 정보 초기화
+    const currentSquares = history[history.length - 1];
 
+    const handlePlay = (nextSquares) => {
+        setHistory([...history, nextSquares]); // history 에 nextSquares 추가하여 업데이트
+        setXisNext(!xIsNext);   // xIsNext 업데이트
+    }
+
+    return (
+        <div className="game">
+            <div className="game-board">
+                <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay}/>
+            </div>
+            <div className="game-info">
+                <ol>{/*TODO*/}</ol>
+            </div>
+        </div>
+    );
+}
+
+const Board = ({xIsNext, squares, onPlay}) => {
     const handleClick = (i) => {
         if (squares[i] || calculateWinner(squares)) { // 이미 클릭한 square 또는 승리자가 나온 경우 종료
             return;
@@ -16,8 +35,7 @@ const Board = () => {
         } else {
             nextSquares[i] = "O";
         }
-        setSquares(nextSquares); // squares 의 정보 업데이트
-        setXisNext(!xIsNext);   // xIsNext 업데이트
+        onPlay(nextSquares);
     }
 
     const winner = calculateWinner(squares);
@@ -82,4 +100,4 @@ const calculateWinner = (squares) => {
     return null;
 }
 
-export default Board;
+export default Game;
