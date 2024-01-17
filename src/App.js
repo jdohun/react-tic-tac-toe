@@ -11,13 +11,32 @@ const Game = () => {
         setXisNext(!xIsNext);   // xIsNext 업데이트
     }
 
+    const jumpTo = (nextMove) => {
+        // TODO
+    }
+
+    // 저장중인 history 를 각각 하나의 버튼으로 반환
+    const moves = history.map((squares, move) => {
+        let description;
+        if (move > 0) {
+            description = 'Go to move #' + move;
+        } else {
+            description = 'Go to game start';
+        }
+        return (
+            <li>
+                <button onClick={() => jumpTo(move)}>{description}</button>
+            </li>
+        );
+    });
+
     return (
         <div className="game">
             <div className="game-board">
                 <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay}/>
             </div>
             <div className="game-info">
-                <ol>{/*TODO*/}</ol>
+                <ol>{moves}</ol>
             </div>
         </div>
     );
