@@ -2,12 +2,22 @@ import {useState} from "react";
 import "./styles.css"
 
 const Board = () => {
-    const [squares, setSquares] = useState(Array(9).fill(null));
+    const [xIsNext, setXisNext] = useState(true); // 현재 표시 마크가 X 이면 true
+    const [squares, setSquares] = useState(Array(9).fill(null)); // 각각의 버튼 상태 초기 정보
 
     const handleClick = (i) => {
+        if (squares[i] || calculateWinner(squares)) { // 이미 클릭한 square 또는 승리자가 나온 경우 종료
+            return;
+        }
+
         const nextSquares = squares.slice();
-        nextSquares[i] = "X";
-        setSquares(nextSquares);
+        if (xIsNext) {
+            nextSquares[i] = "X";
+        } else {
+            nextSquares[i] = "O";
+        }
+        setSquares(nextSquares); // squares 의 정보 업데이트
+        setXisNext(!xIsNext);   // xIsNext 업데이트
     }
 
     return (
@@ -40,6 +50,27 @@ const Square = ({value, onSquareClick}) => {
             {value}
         </button>
     );
+}
+
+const calculateWinner = (squares) => {
+    const winningLines = [
+        [0, 1, 2],  // row0
+        [3, 4, 5],  // row1
+        [6, 7, 8],  // row2
+        [0, 3, 6],  // col0
+        [1, 4, 7],  // col1
+        [2, 5, 8],  // col2
+        [0, 4, 8],  // 대각1
+        [2, 4, 6]   // 대각2
+    ];
+
+    for (let i = 0; i < winningLines.length; i++) {
+        const [a, b, c] = winningLines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+        }
+    }
+    return null;
 }
 
 export default Board;
