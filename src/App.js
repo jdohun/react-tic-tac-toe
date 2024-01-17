@@ -2,22 +2,20 @@ import {useState} from "react";
 import "./styles.css"
 
 const Game = () => {
-    const [xIsNext, setXIsNext] = useState(true); // true 이면 다음 표시 마크는 X
     const [history, setHistory] = useState([Array(9).fill(null)]); // 게임 히스토리 정보 초기화
     const [currentMove, setCurrentMove] = useState(0); // 현재 게임 진행 시점 초기화
+    const xIsNext = currentMove % 2 === 0; // 다음 표시 마크가 currentMove 에 의존적
     const currentSquares = history[currentMove]; // 현재 게임 진행 시점을 통해 현재 게임 진행 상황을 초기화
 
     const handlePlay = (nextSquares) => {
         const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]; // 현재 시점까지의 기록에 새로운 기록을 추가
         setHistory(nextHistory); // history 재정의
         setCurrentMove(nextHistory.length - 1); // 재정의된 history 의 최근 기록으로 현재 시점 변경
-        setXIsNext(!xIsNext);   // xIsNext 업데이트
     }
 
     // 입력 받은 시점으로 이동
     const jumpTo = (nextMove) => {
         setCurrentMove(nextMove); // 입력 받은 시점으로 currentMove 변경
-        setXIsNext(nextMove % 2 === 0); // 입력 받은 시점을 통해 xIsNext 변경
     }
 
     // 저장중인 history 를 각각 하나의 버튼으로 반환
