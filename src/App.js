@@ -24,7 +24,8 @@ const Game = () => {
             description = 'Go to game start';
         }
         return (
-            <li>
+            // 키는 전역적으로 고유할 필요 없이, 구성 요소와 해당 형제 사이에서만 고유하면 된다.
+            <li key={move}>
                 <button onClick={() => jumpTo(move)}>{description}</button>
             </li>
         );
