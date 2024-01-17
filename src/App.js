@@ -2,15 +2,17 @@ import {useState} from "react";
 import "./styles.css"
 
 const Game = () => {
-    const [xIsNext, setXisNext] = useState(true); // 현재 표시 마크가 X 이면 true
+    const [xIsNext, setXisNext] = useState(true); // true 이면 다음 표시 마크는 X
     const [history, setHistory] = useState([Array(9).fill(null)]); // 게임 히스토리 정보 초기화
     const currentSquares = history[history.length - 1];
 
     const handlePlay = (nextSquares) => {
+        // 현재까지의 게임 진행 상황 업데이트
         setHistory([...history, nextSquares]); // history 에 nextSquares 추가하여 업데이트
         setXisNext(!xIsNext);   // xIsNext 업데이트
     }
 
+    // 입력 받은 시점으로 이동
     const jumpTo = (nextMove) => {
         // TODO
     }
@@ -45,7 +47,7 @@ const Game = () => {
 
 const Board = ({xIsNext, squares, onPlay}) => {
     const handleClick = (i) => {
-        if (squares[i] || calculateWinner(squares)) { // 이미 클릭한 square 또는 승리자가 나온 경우 종료
+        if (squares[i] || calculateWinner(squares)) { // 이미 클릭한 square 또는 승리자가 나온 경우 반응하지 않음
             return;
         }
 
@@ -107,8 +109,8 @@ const calculateWinner = (squares) => {
         [0, 3, 6],  // col0
         [1, 4, 7],  // col1
         [2, 5, 8],  // col2
-        [0, 4, 8],  // 대각1
-        [2, 4, 6]   // 대각2
+        [0, 4, 8],  // cross1
+        [2, 4, 6]   // cross2
     ];
 
     for (let i = 0; i < winningLines.length; i++) {
