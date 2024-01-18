@@ -44,7 +44,7 @@ const Game = () => {
             </div>
         </div>
     );
-}
+};
 
 const Board = ({xIsNext, squares, onPlay}) => {
     const handleClick = (i) => {
@@ -89,7 +89,7 @@ const Board = ({xIsNext, squares, onPlay}) => {
             </div>
         </>
     );
-}
+};
 
 const Square = ({value, onSquareClick}) => {
     return (
@@ -100,7 +100,7 @@ const Square = ({value, onSquareClick}) => {
             {value}
         </button>
     );
-}
+};
 
 const calculateWinner = (squares) => {
     const winningLines = [
@@ -121,6 +121,6 @@ const calculateWinner = (squares) => {
         }
     }
     return null;
-}
+};
 
 export default Game;
